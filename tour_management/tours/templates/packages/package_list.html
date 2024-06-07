@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}Tour Packages{% endblock %}
+
+{% block content %}
+<h2>Tour Packages</h2>
+<ul>
+    {% for package in packages %}
+        <li><a href="{% url 'package_detail' package.pk %}">{{ package.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

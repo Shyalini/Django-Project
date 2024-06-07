@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}{{ package.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ package.title }}</h2>
+<p>{{ package.description }}</p>
+<p>Price: ₹{{ package.price }}</p>
+<p>Duration: {{ package.duration_days }} days</p>
+<p>Expiry Date: {{ package.expiry_date }}</p>
+<img src="{{ package.image.url }}" alt="{{ package.title }}">
+
+{% if user.is_authenticated %}
+    <a href="{% url 'book_package' package.pk %}">Book Now</a>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> to book this package.</p>
+{% endif %}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

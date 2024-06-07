@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<p>Welcome, {{ user.username }}!</p>
+
+<h3>All Packages</h3>
+<ul>
+    {% for package in packages %}
+        <li>
+            <a href="{% url 'package_detail' package.pk %}">{{ package.title }}</a> -
+            {% if not package.is_approved %}
+                <a href="{% url 'approve_package' package.pk %}">Approve</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<h3>All Users</h3>
+<ul>
+    {% for user in users %}
+        <li>{{ user.username }} - {{ user.email }}</li>
+    {% endfor %}
+</ul>
+
+<h3>All Vendors</h3>
+<ul>
+    {% for vendor in vendors %}
+        <li>{{ vendor.user.username }} - {{ vendor.user.email }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
