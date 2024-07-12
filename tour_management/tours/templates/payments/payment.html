@@ -6,14 +6,16 @@
 <link rel="stylesheet" href="{% static 'css/packages.css' %}">
 <div class="body">
     <h2>Payment for {{ booking.package.title }}</h2>
-    <p>Amount: ₹{{ booking.package.price }}</p>
+    <p>Amount per person: ₹{{ booking.package.price }}</p>
+    <p>Number of people: {{ booking.number_of_people }}</p>
+    <p>Total Amount: ₹<span id="total-amount">{{ total_amount }}</span></p>
     <form action="/payment/success/" method="POST">
         {% csrf_token %}
         <script src="{% static 'js/payment.js' %}"></script>
         <script
             src="https://checkout.razorpay.com/v1/checkout.js"
             data-key="rzp_test_S7apYrGEoFx5gB"
-            data-amount="{{ booking.package.price|floatformat:2 }}00"
+            data-amount="{{ total_amount|floatformat:2 }}00"
             data-currency="INR"
             data-order_id="{{ payment.id }}"
             data-buttontext="Pay with Razorpay"

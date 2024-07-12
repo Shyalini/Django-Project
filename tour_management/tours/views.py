@@ -100,8 +100,8 @@ def book_package(request, pk):
             booking.user = request.user
             booking.package = package
             booking.save()
-            messages.success(request, 'Please pay the Amount.')
-            return redirect('payment', pk=booking.id)
+            messages.success(request, 'Please pay the amount.')
+            return redirect('payment', pk=booking.pk)
         else:
             messages.error(request, 'Booking failed. Please correct the errors.')
     else:
@@ -109,14 +109,15 @@ def book_package(request, pk):
     return render(request, 'bookings/book_package.html', {'form': form, 'package': package})
 
 
-# Payment View
 @login_required
 def payment(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
     client = razorpay.Client(auth=("rzp_test_S7apYrGEoFx5gB", "ds4Gg3I5znmLpfXauTN7dOBW"))
+    total_amount = float(booking.package.price) * booking.number_of_people * 100  # amount in paise
+
     try:
         payment = client.order.create({
-            "amount": int(booking.package.price * 100),  # amount in paise
+            "amount": int(total_amount),
             "currency": "INR",
             "payment_capture": "1"
         })
@@ -125,7 +126,7 @@ def payment(request, pk):
         messages.error(request, f'Payment initiation failed: {str(e)}')
         return redirect('book_package', pk=booking.package.pk)
 
-    return render(request, 'payments/payment.html', {'payment': payment, 'booking': booking})
+    return render(request, 'payments/payment.html', {'payment': payment, 'booking': booking, 'total_amount': total_amount / 100})
 
 
 # Payment Success View
