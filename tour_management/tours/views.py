@@ -8,6 +8,9 @@ from django.contrib import messages
 import razorpay
 from .forms import CustomUserCreationForm, PackageForm, BookingForm
 from .models import Package, Booking, Vendor
+from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 # Check if User is Vendor
@@ -97,7 +100,7 @@ def book_package(request, pk):
             booking.user = request.user
             booking.package = package
             booking.save()
-            messages.success(request, 'Package booked successfully.')
+            messages.success(request, 'Please pay the Amount.')
             return redirect('payment', pk=booking.id)
         else:
             messages.error(request, 'Booking failed. Please correct the errors.')
@@ -123,6 +126,13 @@ def payment(request, pk):
         return redirect('book_package', pk=booking.package.pk)
 
     return render(request, 'payments/payment.html', {'payment': payment, 'booking': booking})
+
+
+# Payment Success View
+@csrf_exempt
+def payment_success(request):
+    messages.success(request, 'Payment successful.')
+    return redirect('index')
 
 
 # Vendor Dashboard View
@@ -159,9 +169,8 @@ def manage_package(request, pk=None):
 
 
 # Admin Dashboard View
-
+@staff_member_required
 def admin_dashboard(request):
-    print("Admin Dashboard accessed")
     packages = Package.objects.all()
     users = User.objects.all()
     vendors = Vendor.objects.all()
@@ -176,3 +185,32 @@ def approve_package(request, pk):
     package.save()
     messages.success(request, 'Package approved successfully.')
     return redirect('admin_dashboard')
+
+
+@csrf_exempt
+def contact_view(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first-name')
+        last_name = request.POST.get('last-name', '')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        # Create the email message
+        full_message = f"Name: {first_name} {last_name}\nEmail: {email}\n\nMessage:\n{message}"
+
+        # Send email
+        send_mail(
+            'Contact Form Submission',
+            full_message,
+            settings.DEFAULT_FROM_EMAIL,
+            ['tourpackages60@gmail.com'],
+        )
+
+        messages.success(request, 'Your message has been sent successfully!')
+        return redirect('contact')
+
+    return render(request, 'company/contact.html')
+
+
+def about_view(request):
+    return render(request, 'company/about.html')

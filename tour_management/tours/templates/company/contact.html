@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}Contact Us{% endblock %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/styles1.css' %}">
+</head>
+<div class="body" id="contact-section">
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-info">
+                <h2>Contact us</h2>
+                <p>Need to get in touch with us? Either fill out the form with your inquiry or find the <a href="mailto:department@example.com">department email</a> you'd like to contact below.</p>
+            </div>
+            <div class="contact-form">
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <label for="first-name">First name*</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last name</label>
+                        <input type="text" id="last-name" name="last-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email*</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">What can we help you with?</label>
+                        <textarea id="message" name="message" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

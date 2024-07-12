@@ -10,9 +10,13 @@
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'index' %}">Home</a></li>
+        <div class="navbar">
+            <div class="logo">Tour Packages</div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}" id="home-link">Home</a></li>
+                    <li><a href="{% url 'contact' %}#contact-section">Contact Us</a></li>
+                    <li><a href="{% url 'about' %}#about">About Us</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% if user|has_group:"Vendor" %}
@@ -22,24 +26,88 @@
                         <li><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
                     {% endif %}
                 {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
+                    <li><a href="{% url 'login' %}" id="login-link" onclick="showSection('login-section')">Login</a></li>
+                    <li><a href="{% url 'register' %}#register-section" id="register-link" onclick="showSection('register-section')">Register</a></li>
                 {% endif %}
-            </ul>
-        </nav>
+                </ul>
+            </nav>
+        </div>
     </header>
     <main>
-        {% block content %}
-        <h2>Available Packages</h2>
-            <ul>
-                {% for package in packages %}
-                <li><a href="{% url 'package_detail' package.pk %}">{{ package.title }}</a></li>
-                {% endfor %}
-            </ul>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to our Tour Packages</h1>
+            <h2>TOUR PACKAGES</h2>
+            <a href="{% url 'index' %}#packages" class="btn">Read More</a>
+        </div>
+    </section>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <h3>{{ message }}</h3>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="content">
+    {% block content %}
+        <h2 class="head">Available Packages</h2>
+        <div id="packages" class="card-container">
+            {% for package in packages %}
+            <div class="card">
+                <img src="{{ package.image.url }}" alt="{{ package.title }}">
+                <div class="card-content">
+                    <h3>{{ package.title }}</h3>
+                    <p>₹{{ package.price }} / per booking</p>
+                    <ul>
+                        <li>{{ package.details }}</li>
+                        <!-- Add other package details here -->
+                    </ul>
+                    <a href="{% url 'package_detail' package.pk %}" class="btn">Book Now</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         {% endblock %}
-    </main>
+        </div>
+        </main>
     <footer>
-        <p>&copy; 2024 Tour Packages Management. All rights reserved.</p>
+        <div class="footer-container">
+            <div class="footer-subscribe">
+                <h2>Subscribe Newsletter</h2>
+                <form action="#">
+                    <input type="email" placeholder="Your email..." required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <div class="footer-links">
+                <h3>Links</h3>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Info</h3>
+                <p>Phone: +91 9876543210</p>
+                <p>Email: info@tourpackages.com</p>
+                <p>Location: Thrissur, Kerala</p>
+            </div>
+            <div class="footer-social">
+                <h3>Social Info</h3>
+                <p>You can be connected to us by clicking on the following social media links:</p>
+                <div class="social-icons">
+                    <a href="#"><img src="static/images/facebook-icon.png" alt="Facebook"></a>
+                    <a href="#"><img src="static/images/twitter-icon.png" alt="Twitter"></a>
+                    <a href="#"><img src="static/images/dribbble-icon.webp" alt="Dribbble"></a>
+                    <a href="#"><img src="static/images/googleplus-icon.png" alt="Google+"></a>
+                </div>
+            </div>
+            <p>&copy; 2024 Tour Packages Management. All rights reserved.</p>
+        </div>
+
     </footer>
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>

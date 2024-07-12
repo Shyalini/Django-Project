@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+
+<div id="about" class="about-section">
+    <h2>About Us</h2>
+    <div class="about-content">
+        <img src="{% static 'images/about-image1.jfif' %}" alt="About Us Image">
+        <p>We are dedicated to providing the best service to our customers. Our team works tirelessly to meet the expectations and demands of our clients. We believe in innovation and continuous improvement to offer top-notch solutions.</p>
+    </div>
+</div>
+
+<div class="mission-section">
+    <h2>Our Mission</h2>
+    <div class="mission-content">
+        <img src="{% static 'images/about-image2.jfif' %}" alt="Our Mission Image">
+        <p>Helping millions of organizations grow better through our exceptional services and support. Our mission is to empower businesses and individuals to achieve their full potential.</p>
+    </div>
+</div>
+
+<div class="story-section">
+    <h2>Our Story</h2>
+    <div class="story-content">
+        <img src="{% static 'images/about-image3.jfif' %}" alt="Our Story Image">
+        <p>Our journey started with a small team of passionate individuals. Over the years, we have grown into a large organization with a global presence, thanks to our unwavering commitment to excellence and customer satisfaction.</p>
+    </div>
+</div>
+
+<div class="numbers-section">
+    <h2>Highlights By The Numbers</h2>
+    <div class="numbers-content">
+        <div class="number-box">
+            <h3>15 Global Offices</h3>
+        </div>
+        <div class="number-box">
+            <h3>500+ Employees</h3>
+        </div>
+        <div class="number-box">
+            <h3>80,000+ Customers</h3>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

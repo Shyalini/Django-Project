@@ -3,23 +3,29 @@
 {% block title %}Payment{% endblock %}
 
 {% block content %}
-<h2>Payment for {{ booking.package.title }}</h2>
-<p>Amount: ₹{{ booking.package.price }}</p>
-<form action="/your-payment-endpoint/" method="POST">
-    <script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        data-key="rzp_test_S7apYrGEoFx5gB"
-        data-amount="{{ booking.package.price|floatformat:2 }}00"
-        data-currency="INR"
-        data-order_id="{{ payment.id }}"
-        data-buttontext="Pay with Razorpay"
-        data-name="Tour Packages Management"
-        data-description="Payment for {{ booking.package.title }}"
-        data-image="/static/images/your-logo.png"
-        data-prefill.name="{{ booking.user.username }}"
-        data-prefill.email="{{ booking.user.email }}"
-        data-theme.color="#F37254"
-    ></script>
-    <input type="hidden" value="Hidden Element" name="hidden">
-</form>
+<link rel="stylesheet" href="{% static 'css/packages.css' %}">
+<div class="body">
+    <h2>Payment for {{ booking.package.title }}</h2>
+    <p>Amount: ₹{{ booking.package.price }}</p>
+    <form action="/payment/success/" method="POST">
+        {% csrf_token %}
+        <script src="{% static 'js/payment.js' %}"></script>
+        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="rzp_test_S7apYrGEoFx5gB"
+            data-amount="{{ booking.package.price|floatformat:2 }}00"
+            data-currency="INR"
+            data-order_id="{{ payment.id }}"
+            data-buttontext="Pay with Razorpay"
+            data-name="Tour Packages Management"
+            data-description="Payment for {{ booking.package.title }}"
+            data-image="/static/images/logo.png"
+            data-prefill.name="{{ booking.user.username }}"
+            data-prefill.email="{{ booking.user.email }}"
+            data-theme.color="#F37254"
+            data-redirect="True"
+        ></script>
+        <input type="hidden" value="Hidden Element" name="hidden">
+    </form>
+</div>
 {% endblock %}

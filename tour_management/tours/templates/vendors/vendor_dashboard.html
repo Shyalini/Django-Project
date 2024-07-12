@@ -2,16 +2,20 @@
 {% load static %}
 {% block title %}Vendor Dashboard{% endblock %}
 {% block content %}
-<h2>Vendor Dashboard</h2>
-<p>Welcome, {{ user.username }}!</p>
-<a href="{% url 'create_package' %}">Create New Package</a>
-<h3>Your Packages</h3>
-<ul>
-    {% for package in packages %}
-        <li>
-            <a href="{% url 'package_detail' package.pk %}">{{ package.title }}</a> -
-            <a href="{% url 'manage_package' package.pk %}">Edit</a>
-        </li>
-    {% endfor %}
-</ul>
+<link rel="stylesheet" href="{% static 'css/vendor.css' %}">
+
+<div class="dashboard-container">
+    <h2>Vendor Dashboard</h2>
+    <p>Welcome, {{ user.username }}!</p>
+    <a href="{% url 'create_package' %}">Create New Package</a>
+    <h3>Your Packages</h3>
+    <ul class="links">
+        {% for package in packages %}
+            <li>
+                <a href="{% url 'package_detail' package.pk %}">{{ package.title }}</a> -
+                <a href="{% url 'manage_package' package.pk %}">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

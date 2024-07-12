@@ -1,26 +1,23 @@
 {% extends "index.html" %}
 {% load static %}
+{% load custom_tags %}
 {% block title %}{{ package.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ package.title }}</h2>
-<p>{{ package.description }}</p>
-<p>Price: ₹{{ package.price }}</p>
-<p>Duration: {{ package.duration_days }} days</p>
-<p>Expiry Date: {{ package.expiry_date }}</p>
-<img src="{{ package.image.url }}" alt="{{ package.title }}">
+<link rel="stylesheet" href="{% static 'css/packages.css' %}">
+<div class="body">
+    <h2>{{ package.title }}</h2>
+    <p>{{ package.description }}</p>
+    <p>Price: ₹{{ package.price }}</p>
+    <p>Duration: {{ package.duration_days }} days</p>
+    <p>Expiry Date: {{ package.expiry_date }}</p>
+    <img src="{{ package.image.url }}" alt="{{ package.title }}">
 
-{% if user.is_authenticated %}
-    <a href="{% url 'book_package' package.pk %}">Book Now</a>
-{% else %}
-    <p><a href="{% url 'login' %}">Login</a> to book this package.</p>
+    {% if user.is_authenticated and not user|has_group:"Vendor" %}
+        <a class="book-now" href="{% url 'book_package' package.pk %}">Book Now</a>
+</div>
 {% endif %}
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<span class="br-spacing"></span>
 {% endblock %}
+

@@ -1,11 +1,16 @@
 {% extends "index.html" %}
+{% load static %}
 {% block title %}{% if form.instance.pk %}Edit{% else %}Create{% endif %} Package{% endblock %}
 {% block content %}
-<h2>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Package</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{% if form.instance.pk %}Update{% else %}Create{% endif %} Package</button>
-</form>
-<a href="{% url 'vendor_dashboard' %}">Back to Vendor Dashboard</a>
+<link rel="stylesheet" href="{% static 'css/vendor.css' %}">
+
+<div class="form-container">
+    <h2>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Package</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% if form.instance.pk %}Update{% else %}Create{% endif %} Package</button>
+    </form>
+    <a class="back-link" href="{% url 'vendor_dashboard' %}">Back to Vendor Dashboard</a>
+</div>
 {% endblock %}

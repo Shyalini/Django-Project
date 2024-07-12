@@ -34,6 +34,8 @@ class Booking(models.Model):
     number_of_people = models.IntegerField()
     start_date = models.DateField()
     end_date = models.DateField()
+    payment_id = models.CharField(max_length=255, null=True, blank=True)
+    payment_status = models.CharField(max_length=50, default='Pending')
 
     def __str__(self):
         return f"Booking {self.pk} for {self.user.username}"
